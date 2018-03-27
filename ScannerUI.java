@@ -4,7 +4,7 @@ public class ScannerUI
 {
     private int x;
 
-    public int getIntFromKeyboard(){
+    public int getIntFromKeyboard() throws ExitFromMenuException{
         boolean found = false;
         Scanner sc = new Scanner(System.in);
         while(!found){
@@ -14,21 +14,28 @@ public class ScannerUI
                 found = true;
             }
             else{
-                sc.next();
+                String token = sc.next();
+                if(token.equals("exit")){
+                    throw new ExitFromMenuException();
+                }
             }
         }
 
         return x;
     }
 
-    public void menu(){
-        while(true){
-            System.out.println("1 Go to sleep");
-            System.out.println("2 Wake up");
-            System.out.println("3 Eat");
-            System.out.println("4 Exit");
+    public int menuChoice() throws ExitFromMenuException{
+        System.out.println("1 Go to sleep");
+        System.out.println("2 Wake up");
+        System.out.println("3 Eat");
+        int choice = getIntFromKeyboard();
 
-            int choice = getIntFromKeyboard();
+        return choice;
+    }
+
+    public void menu() throws ExitFromMenuException{
+        while(true){
+            int choice = menuChoice();
 
             switch(choice){
                 case 1: System.out.println("zzzzzzzzzzzzz");
@@ -41,20 +48,32 @@ public class ScannerUI
                 System.out.println("Yum");
                 break;
 
-                case 4:
-                return;
-
             }
         }
     }
 
     public static void main(String[] args){
-	if(args.length == 2){
-	    System.out.println(args[0]);
-	    System.out.println(args[1]);
-	}
-	
-	ScannerUI sui = new ScannerUI();
-	sui.menu();
+        int tries = 0;
+        if(args.length == 2){
+            System.out.println(args[0]);
+            System.out.println(args[1]);
+        }
+
+        ScannerUI sui = new ScannerUI();
+        while(true){
+            try{
+                while(true){
+
+                    sui.menu();
+
+                }
+            }
+            catch(ExitFromMenuException e){
+                tries ++;
+                System.out.println("You have exited " + tries + " times");
+                System.out.println("Could save or load here");
+                
+            }
+        }
     }
 }
