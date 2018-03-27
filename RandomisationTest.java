@@ -5,14 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.*;
 
-/**
- * The test class RandomisationTest.
- *
- * @author  (your name)
- * @version (a version number or a date)
- */
 public class RandomisationTest
 {
+    private Randomisation randomis2;
     /**
      * Default constructor for test class RandomisationTest
      */
@@ -28,6 +23,7 @@ public class RandomisationTest
     @Before
     public void setUp()
     {
+         randomis2 = new Randomisation();
     }
 
     /**
@@ -41,9 +37,9 @@ public class RandomisationTest
     }
 
     @Test
-    public void position()
+    public void position() throws Exception
     {
-        Randomisation randomis2 = new Randomisation();
+
         Position position1 = randomis2.getRandomPosition();
         assertTrue(position1.getX()>=0);
         assertTrue(position1.getX()<10);
@@ -52,9 +48,8 @@ public class RandomisationTest
     }
 
     @Test
-    public void positionInList()
+    public void positionInList() throws Exception
     {
-        Randomisation randomis2 = new Randomisation();
         ArrayList positions = new ArrayList<Position>();
         positions.add(new Position(2,3));
         positions.add(new Position(1,1));
@@ -64,5 +59,10 @@ public class RandomisationTest
         Position position1 = randomis2.chooseFromList(positions);
         positions.contains(position1);
     }
-}
 
+    @Test(expected = InvalidPositionException.class)
+    public void positionFails () throws Exception
+    {
+        Position p = new Position (1,11);
+    }
+}

@@ -7,7 +7,10 @@ public class Position
     private int x;
     private int y;
 
-    public Position(int x, int y){
+    public Position(int x, int y) throws InvalidPositionException{
+        if(x<0 || x>9 || y<0 || y>9){
+            throw new InvalidPositionException();
+        }
         this.x = x;
         this.y = y;
     }
